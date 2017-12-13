@@ -1,0 +1,13 @@
+/***************************************************************/
+/*         The extension of the main file for AIM              */
+/*                                                             */
+/* Felix Burgstaller                                           */
+/* Version: 0.4                                                */
+/* Date: 18.7.2017                                             */
+/*                                                             */
+/* This file contains the AIM specific context models          */
+/*                                                             */
+/*                                                             */
+/***************************************************************/
+#include "ctxModel.flr"
+IMCtx:ContextClass[defBy->{}].
