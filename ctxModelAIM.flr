@@ -16,7 +16,7 @@ Interest:Parameter.
 FlightPhase:Parameter.
 EventScenario:Parameter.
 
-// Determines for a given interest specification its Parameteral values, the check ?val:<Parameter> ensures that 
+// Determines for a given interest specification its Parameteral values, the check ?val:<Parameter> ensures that
 // only valid parameter values are returned (e.g. deleted ones are not returned)
 //Give: ?bc..SemNOTAMCase
 //Return: ?val..the Parameter values derived from ?data
@@ -51,19 +51,18 @@ closure[covers->{runwayClosure,apronClosure}].
 
 //---Contexts
 allInterests_allFlightPhases_allEventScenarios:AIMCtx[Interest->allInterests,FlightPhase->allFlightPhases,EventScenario->allEventScenarios,
-											   file->'OO/Contexts/allInterests_allFlightPhases_allEventScenarios.flr'].
+											   file->'/home/fburgstaller/flora2/CBRM/Contexts/allInterests_allFlightPhases_allEventScenarios.flr'].
 aircraft_allFlightPhases_obstruction:AIMCtx[Interest->aircraft,FlightPhase->allFlightPhases,EventScenario->obstruction,
-											   file->'OO/Contexts/aircraft_allFlightPhases_obstruction.flr'].
+											   file->'/home/fburgstaller/flora2/CBRM/Contexts/aircraft_allFlightPhases_obstruction.flr'].
 helicopter_allFlightPhases_obstruction:AIMCtx[Interest->helicopter,FlightPhase->allFlightPhases,EventScenario->obstruction,
-											   file->'OO/Contexts/helicopter_allFlightPhases_obstruction.flr'].
+											   file->'/home/fburgstaller/flora2/CBRM/Contexts/helicopter_allFlightPhases_obstruction.flr'].
 aircraft_onground_closure:AIMCtx[Interest->aircraft,FlightPhase->onground,EventScenario->closure,
-											   file->'OO/Contexts/aircraft_onground_closure.flr'].
+											   file->'/home/fburgstaller/flora2/CBRM/Contexts/aircraft_onground_closure.flr'].
 landplane_onground_runwayClosure:AIMCtx[Interest->landplane,FlightPhase->onground,EventScenario->runwayClosure,
-											   file->'OO/Contexts/landplane_onground_runwayClosure.flr'].
+											   file->'/home/fburgstaller/flora2/CBRM/Contexts/landplane_onground_runwayClosure.flr'].
 landplane_allFlightPhases_specialPort:AIMCtx[Interest->landplane,FlightPhase->allFlightPhases,EventScenario->specialPort,
-											   file->'OO/Contexts/landplane_allFlightPhases_specialPort.flr'].
+											   file->'/home/fburgstaller/flora2/CBRM/Contexts/landplane_allFlightPhases_specialPort.flr'].
 landplane_allFlightPhases_aerodromeBeaconStatus:AIMCtx[Interest->landplane,FlightPhase->allFlightPhases,EventScenario->aerodromeBeaconStatus,
-											   file->'OO/Contexts/landplane_allFlightPhases_aerodromeBeaconStatus.flr'].
+											   file->'/home/fburgstaller/flora2/CBRM/Contexts/landplane_allFlightPhases_aerodromeBeaconStatus.flr'].
 aircraft_onground_aerodromeEquipment:AIMCtx[Interest->aircraft,FlightPhase->onground,EventScenario->aerodromeEquipment,
-											   file->'OO/Contexts/aircraft_onground_aerodromeEquipment.flr'].
-
+											   file->'/home/fburgstaller/flora2/CBRM/Contexts/aircraft_onground_aerodromeEquipment.flr'].
