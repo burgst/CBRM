@@ -10,7 +10,7 @@
 /*                                                             */
 /***************************************************************/
 #include "ctxModel.flr"
-
+transCtx(?X,?Y):-?X:AIMCtx[specialises->?Z],?Z[specialises->?Y], \+ (?X =?Z), \+ (?Z = ?Y).
 //---Parameters
 Interest:Parameter.
 FlightPhase:Parameter.
