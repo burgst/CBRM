@@ -12,7 +12,7 @@ BusinessCaseClass[|descProps => \object|].
 //---M1
 InterestSpec[|interest=>\object,flightPhase=>FlightPhase|].
 NOTAM[|type{1..*}=>\object,msg=>\object|].
-SemNOTAMCase:BusinessCaseClass[|interestSpec:descProps=>InterestSpec, notam:descProps=>NOTAM|].
+SemNOTAMCase:BusinessCaseClass[|interestSpec{1..1}=>InterestSpec, notam{1..1}=>NOTAM|].
 
 
 //----------------------------------Business Cases---------------------------------------//
