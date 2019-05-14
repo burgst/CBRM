@@ -13,7 +13,7 @@
 ContextClass[|defBy{1..*}=>Parameter,ctxRelationship{0..*}=>ContextClass|].
 ?model[detRelevantCtxs(?domainCase)=>?model]:-?model:ContextClass, ?domainCase:BusinessCaseClass@bc.
 ?model[detCaseSpecificCtx(?domainCase,?,?)=>?model]:-?model:ContextClass, ?domainCase:BusinessCaseClass@bc.
-?model[|file{0..1} => \string, resolved => \boolean, specializes => ?model, ?param => ?param|]:- ?model:ContextClass, ?model[defBy->?param].
+?model[|file{0..1} => \string, resolved => \boolean, specializes => ?model, ?param{1..1}=> ?param|]:- ?model:ContextClass, ?model[defBy->?param].
 
 ?param[|covers => ?param,valueRelationship{0..*}=>?param|]:-?param:Parameter.
 ?param[|detParamValue(?domainCase)=>?param|]:-?param:Parameter,?domainCase:BusinessCaseClass@bc.
