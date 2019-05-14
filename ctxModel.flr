@@ -33,29 +33,29 @@ ContextClass[|defBy{1..*}=>Parameter,ctxRelationship{0..*}=>ContextClass|].
 //Context relationsship specialises
 ?model[|paramCovers(Parameter)=>?model|]:-?model:ContextClass.
 ?ctx[paramCovers(?param)->?cov]:-?model:ContextClass,
-							 {?ctx,?cov}:?model, 
+							 {?ctx,?cov}:?model,
 							 ?ctx[?param:Parameter->?_v1],
-							 ?cov[?param:Parameter->?_v2], 
+							 ?cov[?param:Parameter->?_v2],
 							 ?_v1[covers->?_v2].
 
 ?cov[specialises->?ctx]:- ?model:ContextClass,
 						  {?ctx,?cov}:?model,
 						  ?ctx[paramCovers(?)->?cov],
-						  true{forall(?param)^(?:ContextClass[defBy->?param]~~> ?ctx[paramCovers(?param)->?cov])}.
+						  true{forall(?param)^(?model:ContextClass[defBy->?param]~~> ?ctx[paramCovers(?param)->?cov])}.
 
 
 //Determines the relevant contexts for a given interestpec (?ispec in module ?mIS) [Different Variant]
 //Given: ?bc.. SemNOTAMcase
 //Return: ?ctx..relvant contexts
-?model[detRelevantCtxs(?bc)->?ctx]:-?model:ContextClass, 
+?model[detRelevantCtxs(?bc)->?ctx]:-?model:ContextClass,
 								?ctx:?model,
-								true{forall(?v)^(?ctx[?:Parameter->?v] ~~> (?_d:Parameter[detParamValue(?bc)->?val:?_d],?v:?_d[covers->?val]))}.
+								true{forall(?p,?v)^(?ctx[?p:Parameter->?v] ~~> (?p:Parameter[detParamValue(?bc)->?val:?p],?v:?p[covers->?val]))}.
 
 //Cleans and loads the relevant contexts into ?m
 //Give: ?bc..SemNOTAMCase, ?mTarget..module to load to
 //Return: ?ctxf..context files loaded
 ?model[%detCleanCaseSpecificCtx(?bc,?mTarget,?ctxf)]:-erasemodule{?mTarget},!,?model[%detCaseSpecificCtx(?bc,?mTarget,?ctxf)].
-												
+
 //Loads the relevant contexts into ?m
 //Give: ?bc..SemNOTAMCase, ?mTarget..module to load to
 //Return: ?ctxf..context files loaded
@@ -69,7 +69,7 @@ ContextClass[|defBy{1..*}=>Parameter,ctxRelationship{0..*}=>ContextClass|].
 
 //Delete the complete model
 //Give: -
-//Return: - 
+//Return: -
 ?model[%delete]:-?model:ContextClass,eraseall{?:?model[?->?]},eraseall{?:?param, ?param:Parameter},eraseall{?model:ContextClass}.
 
 //----------------------------------PARAMETER---------------------------------------//
@@ -79,7 +79,7 @@ ContextClass[|defBy{1..*}=>Parameter,ctxRelationship{0..*}=>ContextClass|].
 //Return: ?ctx..the contexts extended by ?param
 ?model[%addParam(?param, ?rootVal, ?ctx, ?detParamVal)]:- ?model:ContextClass, ?ctx:?model,
 	          t_insert{ ?param:Parameter},
-			  insert{?detParamVal}, 
+			  insert{?detParamVal},
 			  t_insertall{?rootVal:?param, ?model[defBy->?param], ?ctx[?param->?rootVal]}.
 
 //DELETES a Parameter from the model (all values and context ID removed - history reasons)
@@ -87,7 +87,7 @@ ContextClass[|defBy{1..*}=>Parameter,ctxRelationship{0..*}=>ContextClass|].
 //Given: ?param..parameter/Parameter name
 //Return: ?id..rules disabled
 ?model[%delParam(?param,?id)]:- ?model:ContextClass,
-			  t_deleteall{?param:Parameter, ?[defBy->?param:Parameter]}, 
+			  t_deleteall{?param:Parameter, ?[defBy->?param:Parameter]},
               clause{@!{?id} ?param[detParamValue(?)->?]@?,?}, disable{?id,?,\@},
 			  t_deleteall{?:?param},
 			  t_deleteall{?x[covers->?y], ?x:?param,?y:?param},
@@ -101,7 +101,7 @@ ContextClass[|defBy{1..*}=>Parameter,ctxRelationship{0..*}=>ContextClass|].
               ?parent:?param,?param:Parameter, t_insert{?newVal:?param},
 			  t_insert{?parent[covers->?newVal]}.
 
-//ADD node parameter value 
+//ADD node parameter value
 //Given: ?parent..parent node, ?newVal..the new value to add, ?child.. the nodes to be assigned as childs
 //Return: -
 ?model[%addValueNode(?parent, ?newVal, ?child)]:- ?model:ContextClass,
@@ -109,7 +109,7 @@ ContextClass[|defBy{1..*}=>Parameter,ctxRelationship{0..*}=>ContextClass|].
 		   t_insert{?parent[covers->?newVal], ?newVal[covers-> ?child]},
 		   t_deleteall{?parent[covers->?child]}.
 
-//ADD root parameter value 
+//ADD root parameter value
 //Given: ?newVal.. the new value to add, ?child.. the nodes to be assigned as childs
 //Return: -
 ?model[%addValueRoot(?newVal, ?child)]:- ?model:ContextClass,
@@ -127,7 +127,7 @@ ContextClass[|defBy{1..*}=>Parameter,ctxRelationship{0..*}=>ContextClass|].
 //Return: ?parent.. the parents of the value (necessary for deleteall/insertall to work)
 ?model[%delValue(?val,?parent)]:- ?model:ContextClass,
 								  ?parent[covers->?val],
-								  \naf ?parent = ?val, 
+								  \naf ?parent = ?val,
 								  ?val[covers->?children],
 								  \naf ?val = ?children,
 								  t_deleteall{?[covers->?val]},
@@ -145,8 +145,8 @@ ContextClass[|defBy{1..*}=>Parameter,ctxRelationship{0..*}=>ContextClass|].
 //Return: ?ctx.. the modified ctx (necessary for deleteall/insertall to work)
 ?model[%modCtxByValue(?old,?newVal,?ctx)]:- ?model:ContextClass,
 											   ?ctx:?model[?param->?old],
-											   ?newVal:?param, 
-											   t_insertall{?ctx[?param->?newVal]}, 
+											   ?newVal:?param,
+											   t_insertall{?ctx[?param->?newVal]},
 											   t_deleteall{?ctx[?->?old]}.
 
 ?ctx[%situationalModification(?ctxTarget,?param)]:-?ctx:AIMCtx, ?ctxTarget:AIMCtx,
@@ -170,7 +170,7 @@ ContextClass[|defBy{1..*}=>Parameter,ctxRelationship{0..*}=>ContextClass|].
 
 //DETERMINE unused values
 //Given: -
-//Return: - 
+//Return: -
 ?model[detUnusedValues->?v]:- ?model:ContextClass, ?v:?_param, ?_param:Parameter, \naf ?:?model[?_param->?v].
 
 
@@ -178,7 +178,7 @@ ContextClass[|defBy{1..*}=>Parameter,ctxRelationship{0..*}=>ContextClass|].
 //ADD a fact/rule/meta-descriptor to ctx
 //Given: ?rt.. the fact/rule/meta-descriptor to add
 //Return: -
-?ctx[%addTermRule(?rt)]:- ?ctx:?model, ?model:ContextClass, ?ctx[file->?ctxf],?ctxf[open(append,?Stream)]@\io, 
+?ctx[%addTermRule(?rt)]:- ?ctx:?model, ?model:ContextClass, ?ctx[file->?ctxf],?ctxf[open(append,?Stream)]@\io,
 						  ?Stream[write(?rt)]@\io,
 						  ?Stream[close]@\io.
 
@@ -186,6 +186,6 @@ ContextClass[|defBy{1..*}=>Parameter,ctxRelationship{0..*}=>ContextClass|].
 //Given: ?rt.. the fact/rule/meta-descriptor to delete, e.g., '@!{ACI_twy}\n' ALWAYS ADD NEWLINE!!
 //Return: -
 ?ctx[%delTermRule(?rt)]:- ?ctx:?model, ?model:ContextClass, ?ctx[file->?ctxf],?ctxf[open(read,?Stream)]@\io, 'CCtx/Contexts/tmp.tmp'[open(write,?s)]@\io,
-						  \while \repeat(?Stream[readline(atom,?Line)]@\io) 
+						  \while \repeat(?Stream[readline(atom,?Line)]@\io)
 						  \do \if ?rt = ?Line \then ?Stream[readline(atom,?)]@\io \else ?s[write(?Line)]@\io,
 						  ?Stream[close]@\io, ?s[close]@\io, File[remove(?ctxf)]@\io,File[rename('CCtx/Contexts/tmp.tmp',?ctxf)]@\io.
