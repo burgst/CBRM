@@ -41,7 +41,7 @@ ContextClass[|defBy{1..*}=>Parameter,ctxRelationship{0..*}=>ContextClass|].
 ?cov[specialises->?ctx]:- ?model:ContextClass,
 						  {?ctx,?cov}:?model,
 						  ?ctx[paramCovers(?)->?cov],
-						  true{forall(?param)^(?model:ContextClass[defBy->?param]~~> ?ctx[paramCovers(?param)->?cov])}.
+						  true{forall(?param)^(?model[defBy->?param]~~> ?ctx[paramCovers(?param)->?cov])}.
 
 
 //Determines the relevant contexts for a given interestpec (?ispec in module ?mIS) [Different Variant]
